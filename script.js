@@ -51,6 +51,17 @@
     const [y, m, d] = date.split("-").map(Number);
     return `${y}年${m}月${d}日`;
   }
+  function formatTemperatures(record) {
+    // 旧バージョンの単一検温データも表示できるようにする
+    if (record.temperatureMorning !== undefined || record.temperatureNoon !== undefined || record.temperatureNight !== undefined) {
+      const parts = [["朝", record.temperatureMorning], ["昼", record.temperatureNoon], ["夜", record.temperatureNight]]
+        .filter(([, value]) => value !== "" && value !== null && value !== undefined)
+        .map(([label, value]) => `${label} ${escapeHtml(value)}℃`);
+      return parts.length ? parts.join(" / ") : "未入力";
+    }
+    return record.temperature !== "" && record.temperature !== null && record.temperature !== undefined
+      ? `${escapeHtml(record.temperature)}℃` : "未入力";
+  }
 
   function renderCalendar() {
     $("month-label").textContent = `${calendarMonth.getFullYear()}年${calendarMonth.getMonth() + 1}月`;
@@ -120,7 +131,7 @@
       return `<article class="record-card">
         <strong>${escapeHtml(child?.name || "登録解除された子ども")}</strong>
         <span>機嫌：${escapeHtml(record.mood || "未設定")}</span>
-        <p>検温：${record.temperature ? `${escapeHtml(record.temperature)}℃` : "未入力"}</p>
+        <p>検温：${formatTemperatures(record)}</p>
         <p>症状：${escapeHtml(symptoms)}</p>
         ${record.memo ? `<p>メモ：${escapeHtml(record.memo)}</p>` : ""}
         <div class="record-actions">
@@ -148,7 +159,13 @@
     $("record-title").textContent = `${child?.name || "子ども"}の体調記録${record ? "（編集）" : ""}`;
     $("record-date").value = record?.date || selectedDate;
     $("mood").value = record?.mood || "普通";
-    $("temperature").value = record?.temperature ?? "";
+    $("temperature-morning").value = record?.temperatureMorning ?? "";
+    $("temperature-noon").value = record?.temperatureNoon ?? "";
+    $("temperature-night").value = record?.temperatureNight ?? "";
+    // 旧バージョンの記録を編集する場合は、既存の検温値を朝の欄に表示
+    if (record && record.temperatureMorning === undefined && record.temperature !== undefined && record.temperature !== "") {
+      $("temperature-morning").value = record.temperature;
+    }
     $("memo").value = record?.memo || "";
     renderSymptomOptions(record?.symptoms || []);
     showScreen("record-screen");
@@ -275,7 +292,9 @@
       childId: activeChildId,
       date: $("record-date").value,
       mood: $("mood").value,
-      temperature: $("temperature").value === "" ? "" : Number($("temperature").value),
+      temperatureMorning: $("temperature-morning").value === "" ? "" : Number($("temperature-morning").value),
+      temperatureNoon: $("temperature-noon").value === "" ? "" : Number($("temperature-noon").value),
+      temperatureNight: $("temperature-night").value === "" ? "" : Number($("temperature-night").value),
       symptoms,
       memo: $("memo").value.trim()
     };

@@ -46,8 +46,23 @@
           <option value="悪い">悪い</option>
         </select>
 
-        <label for="temperature">検温（℃）</label>
-        <input id="temperature" name="temperature" type="number" min="34" max="43" step="0.1" placeholder="例：36.8">
+        <fieldset class="temperature-fieldset">
+          <legend>検温（℃）</legend>
+          <div class="temperature-inputs">
+            <div class="temperature-item">
+              <label for="temperature-morning">朝</label>
+              <input id="temperature-morning" name="temperatureMorning" type="number" min="34" max="43" step="0.1" placeholder="例：36.8">
+            </div>
+            <div class="temperature-item">
+              <label for="temperature-noon">昼</label>
+              <input id="temperature-noon" name="temperatureNoon" type="number" min="34" max="43" step="0.1" placeholder="例：36.8">
+            </div>
+            <div class="temperature-item">
+              <label for="temperature-night">夜</label>
+              <input id="temperature-night" name="temperatureNight" type="number" min="34" max="43" step="0.1" placeholder="例：36.8">
+            </div>
+          </div>
+        </fieldset>
 
         <fieldset>
           <legend>症状（複数選択可）</legend>
