@@ -1,0 +1,68 @@
+* { box-sizing: border-box; }
+:root { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif; color: #222; background: #f7f8fa; }
+body { margin: 0; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+.app-header { background: #fff; border-bottom: 1px solid #ddd; padding: 16px; }
+h1 { font-size: 1.25rem; margin: 0 0 12px; }
+h2 { font-size: 1.15rem; }
+h3 { font-size: 1rem; margin-top: 0; }
+.top-nav { display: flex; gap: 8px; }
+.nav-button, .back-button, .secondary-button { background: #fff; border: 1px solid #c9cdd3; border-radius: 8px; padding: 9px 12px; color: #222; }
+.nav-button.active { background: #e9eefb; border-color: #9db5ef; }
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+.screen { display: block; }
+.hidden { display: none !important; }
+.calendar-heading { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 4px 0 14px; }
+.calendar-heading h2 { min-width: 150px; text-align: center; margin: 0; }
+.calendar-heading button { font-size: 1.5rem; width: 40px; height: 40px; border: 1px solid #ddd; background: #fff; border-radius: 8px; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.calendar-cell { min-height: 56px; border: 1px solid #e0e3e8; background: #fff; border-radius: 7px; padding: 6px 2px; text-align: center; color: #222; }
+.calendar-cell.weekday { min-height: auto; padding: 6px 0; border: 0; background: transparent; font-size: .8rem; font-weight: 600; }
+.calendar-cell.empty { background: transparent; border: 0; }
+.calendar-cell.selected { outline: 2px solid #5b8def; outline-offset: -2px; }
+.calendar-cell.today { background: #eef4ff; }
+.calendar-cell .day-number { display: block; }
+.calendar-cell .record-dot { display: block; font-size: .7rem; color: #4778d0; margin-top: 3px; }
+.hint { color: #666; font-size: .85rem; line-height: 1.5; }
+.child-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+.child-button { border: 0; border-radius: 8px; padding: 12px 18px; font-weight: 600; min-width: 100px; }
+.day-records, .settings-section { background: #fff; border: 1px solid #e0e3e8; border-radius: 10px; padding: 14px; margin-top: 16px; }
+.day-records h3 { margin-bottom: 10px; }
+.record-card { border-top: 1px solid #eee; padding: 12px 0; }
+.record-card:first-child { border-top: 0; }
+.record-card strong { display: inline-block; margin-right: 8px; }
+.record-card p { margin: 6px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.record-actions { display: flex; gap: 8px; margin-top: 8px; }
+.record-actions button, .small-button { border: 1px solid #c9cdd3; background: #fff; border-radius: 6px; padding: 5px 9px; }
+form { display: grid; gap: 8px; }
+label, legend { font-size: .92rem; font-weight: 600; }
+input:not([type="color"]):not([type="file"]), select, textarea { width: 100%; min-width: 0; border: 1px solid #c9cdd3; border-radius: 7px; padding: 10px; background: #fff; }
+input[type="color"] { width: 48px; height: 38px; padding: 2px; border: 1px solid #c9cdd3; border-radius: 6px; background: #fff; }
+fieldset { border: 1px solid #d7dbe1; border-radius: 8px; padding: 12px; margin: 4px 0; }
+.symptom-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+.symptom-options label { display: flex; align-items: center; gap: 7px; font-weight: 400; }
+.symptom-options input { width: auto; }
+.form-actions { display: flex; gap: 8px; margin-top: 8px; }
+.primary-button { background: #315fc4; color: #fff; border: 1px solid #315fc4; border-radius: 8px; padding: 10px 14px; }
+.secondary-button { padding: 10px 14px; }
+.settings-section { margin-bottom: 16px; }
+.inline-form { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; }
+.inline-form label { grid-column: 1 / -1; }
+#child-form { grid-template-columns: 1fr auto auto; }
+#child-form label:nth-of-type(2), #child-form label:nth-of-type(3) { grid-column: auto; }
+#child-form input[type="color"] { grid-row: auto; }
+.settings-list { list-style: none; padding: 0; margin: 12px 0 0; }
+.settings-list li { display: flex; align-items: center; gap: 8px; padding: 9px 0; border-top: 1px solid #eee; }
+.settings-list .item-name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.color-preview { width: 24px; height: 24px; border-radius: 5px; border: 1px solid #ddd; }
+.file-label { display: block; margin-top: 12px; }
+input[type="file"] { max-width: 100%; }
+footer { text-align: center; color: #888; font-size: .8rem; padding: 20px; }
+@media (min-width: 560px) {
+  .calendar-cell { min-height: 68px; }
+  .inline-form { grid-template-columns: auto minmax(120px, 1fr) auto auto auto; }
+  .inline-form label { grid-column: auto; }
+  #child-form { grid-template-columns: auto minmax(100px, 1fr) auto auto auto auto; }
+  #child-form label:nth-of-type(2), #child-form label:nth-of-type(3) { grid-column: auto; }
+}

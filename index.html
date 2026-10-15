@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>子どもの体調記録</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>子どもの体調記録</h1>
+    <nav class="top-nav" aria-label="メインメニュー">
+      <button type="button" class="nav-button active" data-screen="calendar-screen">カレンダー</button>
+      <button type="button" class="nav-button" data-screen="settings-screen">設定</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="calendar-screen" class="screen">
+      <div class="calendar-heading">
+        <button id="prev-month" type="button" aria-label="前の月">‹</button>
+        <h2 id="month-label"></h2>
+        <button id="next-month" type="button" aria-label="次の月">›</button>
+      </div>
+      <div id="calendar" class="calendar-grid" aria-label="月間カレンダー"></div>
+      <p class="hint">日付を選ぶと、その日の記録を確認できます。子どものボタンから記録を追加できます。</p>
+      <div id="child-buttons" class="child-buttons"></div>
+      <section class="day-records">
+        <h3 id="selected-date-label"></h3>
+        <div id="records-for-day"></div>
+      </section>
+    </section>
+
+    <section id="record-screen" class="screen hidden">
+      <button type="button" class="back-button" data-screen="calendar-screen">← カレンダーへ戻る</button>
+      <h2 id="record-title">体調記録</h2>
+      <form id="record-form">
+        <label for="record-date">日付</label>
+        <input id="record-date" name="date" type="date" required>
+
+        <label for="mood">機嫌</label>
+        <select id="mood" name="mood" required>
+          <option value="良い">良い</option>
+          <option value="普通" selected>普通</option>
+          <option value="悪い">悪い</option>
+        </select>
+
+        <label for="temperature">検温（℃）</label>
+        <input id="temperature" name="temperature" type="number" min="34" max="43" step="0.1" placeholder="例：36.8">
+
+        <fieldset>
+          <legend>症状（複数選択可）</legend>
+          <div id="symptom-options" class="symptom-options"></div>
+        </fieldset>
+
+        <label for="memo">メモ</label>
+        <textarea id="memo" name="memo" rows="4" placeholder="気づいたことなど"></textarea>
+
+        <div class="form-actions">
+          <button type="submit" class="primary-button">登録する</button>
+          <button type="button" id="cancel-record" class="secondary-button">キャンセル</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="settings-screen" class="screen hidden">
+      <h2>設定</h2>
+      <section class="settings-section">
+        <h3>子どもの登録（最大3人）</h3>
+        <form id="child-form" class="inline-form">
+          <label for="child-name">名前</label>
+          <input id="child-name" maxlength="20" required placeholder="子どもの名前">
+          <label for="child-text-color">文字色</label>
+          <input id="child-text-color" type="color" value="#ffffff" aria-label="ボタンの文字色">
+          <label for="child-bg-color">背景色</label>
+          <input id="child-bg-color" type="color" value="#5b8def" aria-label="ボタンの背景色">
+          <button type="submit" class="primary-button">追加</button>
+        </form>
+        <ul id="children-list" class="settings-list"></ul>
+      </section>
+
+      <section class="settings-section">
+        <h3>症状の登録・並び替え</h3>
+        <form id="symptom-form" class="inline-form">
+          <label for="new-symptom">症状名</label>
+          <input id="new-symptom" maxlength="30" required placeholder="追加する症状">
+          <button type="submit" class="primary-button">追加</button>
+        </form>
+        <p class="hint">↑ ↓ で順番を変更できます。最初から登録されている症状も編集できます。</p>
+        <ul id="symptoms-list" class="settings-list"></ul>
+      </section>
+      <section class="settings-section">
+        <h3>データについて</h3>
+        <p class="hint">記録・設定はこの端末のブラウザー内に保存されます。ブラウザーのデータを消去すると失われる場合があります。</p>
+        <button type="button" id="export-data" class="secondary-button">データをバックアップ</button>
+        <label class="file-label" for="import-data">バックアップから復元</label>
+        <input id="import-data" type="file" accept="application/json">
+      </section>
+    </section>
+  </main>
+
+  <footer>子どもの体調記録</footer>
+  <script src="script.js"></script>
+</body>
+</html>
