@@ -63,6 +63,27 @@
       ? `${escapeHtml(record.temperature)}℃` : "未入力";
   }
 
+  function getCalendarSymptomIcons(dayRecords) {
+    const iconBySymptom = [
+      { match: "鼻水", icon: "👃" },
+      { match: "せき", icon: "😷" },
+      { match: "発熱", icon: "🌡️" },
+      { match: "じんましん", icon: "🖐️" },
+      { match: "発疹", icon: "🔴" }
+    ];
+    const items = [];
+    dayRecords.forEach(record => {
+      const child = childById(record.childId);
+      const color = child?.bgColor || "#9aa0a6";
+      (Array.isArray(record.symptoms) ? record.symptoms : []).forEach(symptom => {
+        const found = iconBySymptom.find(item => symptom.includes(item.match));
+        if (!found || items.some(item => item.symptom === symptom && item.childId === record.childId)) return;
+        items.push({ symptom, icon: found.icon, color, childId: record.childId });
+      });
+    });
+    return items.slice(0, 3);
+  }
+
   function renderCalendar() {
     $("month-label").textContent = `${calendarMonth.getFullYear()}年${calendarMonth.getMonth() + 1}月`;
     const calendar = $("calendar");
@@ -88,8 +109,13 @@
       cell.className = "calendar-cell";
       if (date === selectedDate) cell.classList.add("selected");
       if (date === dateString(new Date())) cell.classList.add("today");
-      const hasRecord = data.records.some(record => record.date === date);
-      cell.innerHTML = `<span class="day-number">${day}</span>${hasRecord ? '<span class="record-dot">● 記録あり</span>' : ""}`;
+      const dayRecords = data.records.filter(record => record.date === date);
+      const symptomIcons = getCalendarSymptomIcons(dayRecords);
+      cell.innerHTML = `<span class="day-number">${day}</span>${symptomIcons.length
+        ? `<span class="calendar-symptom-icons">${symptomIcons.map(item =>
+            `<span class="calendar-symptom-icon" title="${escapeHtml(item.symptom)}" aria-label="${escapeHtml(item.symptom)}" style="background-color:${escapeHtml(item.color)}">${item.icon}</span>`
+          ).join("")}</span>`
+        : ""}`;
       cell.addEventListener("click", () => {
         selectedDate = date;
         renderCalendar();
