@@ -136,3 +136,24 @@ footer { text-align: center; color: #888; font-size: .8rem; padding: 20px; }
   .calendar-symptom-icons { gap: 1px; }
   .calendar-symptom-icon { width: 16px; height: 16px; font-size: 10px; border-radius: 3px; }
 }
+
+/* Calendar symptom display: one row per child, monochrome icons */
+.calendar-cell { min-height: 78px; padding: 4px 1px; overflow: hidden; }
+.calendar-symptom-rows {
+  display: flex; flex-direction: column; gap: 1px; margin-top: 3px; width: 100%;
+}
+.calendar-symptom-row {
+  display: flex; justify-content: center; align-items: center; gap: 2px;
+  min-height: 12px; width: 100%; overflow: hidden;
+}
+.calendar-symptom-icon {
+  display: inline-flex; justify-content: center; align-items: center;
+  width: 11px; height: 12px; flex: 0 0 11px; color: #222;
+  background: transparent !important; font-family: Arial, sans-serif;
+  font-size: 10px; font-weight: 700; line-height: 1; filter: grayscale(1);
+}
+@media (max-width: 380px) {
+  .calendar-cell { min-height: 70px; }
+  .calendar-symptom-row { gap: 1px; }
+  .calendar-symptom-icon { width: 10px; height: 11px; flex-basis: 10px; font-size: 9px; }
+}

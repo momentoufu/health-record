@@ -63,25 +63,25 @@
       ? `${escapeHtml(record.temperature)}℃` : "未入力";
   }
 
-  function getCalendarSymptomIcons(dayRecords) {
+  function getCalendarSymptomRows(dayRecords) {
     const iconBySymptom = [
-      { match: "鼻水", icon: "👃" },
-      { match: "せき", icon: "😷" },
-      { match: "発熱", icon: "🌡️" },
-      { match: "じんましん", icon: "🖐️" },
-      { match: "発疹", icon: "🔴" }
+      { match: "鼻水", icon: "♧" },
+      { match: "せき", icon: "▤" },
+      { match: "発熱", icon: "♨" },
+      { match: "じんましん", icon: "✳" },
+      { match: "発疹", icon: "●" }
     ];
-    const items = [];
-    dayRecords.forEach(record => {
-      const child = childById(record.childId);
-      const color = child?.bgColor || "#9aa0a6";
-      (Array.isArray(record.symptoms) ? record.symptoms : []).forEach(symptom => {
-        const found = iconBySymptom.find(item => symptom.includes(item.match));
-        if (!found || items.some(item => item.symptom === symptom && item.childId === record.childId)) return;
-        items.push({ symptom, icon: found.icon, color, childId: record.childId });
-      });
+    return data.children.map(child => {
+      const record = dayRecords.find(item => item.childId === child.id);
+      const icons = (Array.isArray(record?.symptoms) ? record.symptoms : [])
+        .map(symptom => {
+          const found = iconBySymptom.find(item => symptom.includes(item.match));
+          return found ? { symptom, icon: found.icon } : null;
+        })
+        .filter(Boolean)
+        .slice(0, 3);
+      return { childId: child.id, icons };
     });
-    return items.slice(0, 3);
   }
 
   function renderCalendar() {
@@ -110,12 +110,17 @@
       if (date === selectedDate) cell.classList.add("selected");
       if (date === dateString(new Date())) cell.classList.add("today");
       const dayRecords = data.records.filter(record => record.date === date);
-      const symptomIcons = getCalendarSymptomIcons(dayRecords);
-      cell.innerHTML = `<span class="day-number">${day}</span>${symptomIcons.length
-        ? `<span class="calendar-symptom-icons">${symptomIcons.map(item =>
-            `<span class="calendar-symptom-icon" title="${escapeHtml(item.symptom)}" aria-label="${escapeHtml(item.symptom)}" style="background-color:${escapeHtml(item.color)}">${item.icon}</span>`
-          ).join("")}</span>`
-        : ""}`;
+      const symptomRows = getCalendarSymptomRows(dayRecords);
+      cell.innerHTML = `<span class="day-number">${day}</span>${
+        symptomRows.length
+          ? `<span class="calendar-symptom-rows">${symptomRows.map(row =>
+              `<span class="calendar-symptom-row" title="${escapeHtml(childById(row.childId)?.name || "")}">${
+                row.icons.map(item =>
+                  `<span class="calendar-symptom-icon" title="${escapeHtml(item.symptom)}" aria-label="${escapeHtml(item.symptom)}">${item.icon}</span>`
+                ).join("")
+              }</span>`
+            ).join("")}</span>`
+          : ""}`;
       cell.addEventListener("click", () => {
         selectedDate = date;
         renderCalendar();
