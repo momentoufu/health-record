@@ -65,11 +65,11 @@
 
   function getCalendarSymptomRows(dayRecords) {
     const iconBySymptom = [
-      { match: "鼻水", icon: "♧" },
-      { match: "せき", icon: "▤" },
-      { match: "発熱", icon: "♨" },
-      { match: "じんましん", icon: "✳" },
-      { match: "発疹", icon: "●" }
+      { match: "鼻水", icon: "👃" },
+      { match: "せき", icon: "😷" },
+      { match: "発熱", icon: "🌡️" },
+      { match: "じんましん", icon: "🖐️" },
+      { match: "発疹", icon: "🔴" }
     ];
     return data.children.map(child => {
       const record = dayRecords.find(item => item.childId === child.id);
@@ -116,7 +116,7 @@
           ? `<span class="calendar-symptom-rows">${symptomRows.map(row =>
               `<span class="calendar-symptom-row" title="${escapeHtml(childById(row.childId)?.name || "")}">${
                 row.icons.map(item =>
-                  `<span class="calendar-symptom-icon" title="${escapeHtml(item.symptom)}" aria-label="${escapeHtml(item.symptom)}">${item.icon}</span>`
+                  `<span class="calendar-symptom-icon" title="${escapeHtml(item.symptom)}" aria-label="${escapeHtml(item.symptom)}" style="background-color:${escapeHtml(childById(row.childId)?.bgColor || "#9aa0a6")}">${item.icon}</span>`
                 ).join("")
               }</span>`
             ).join("")}</span>`
