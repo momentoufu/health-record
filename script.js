@@ -114,9 +114,9 @@
       cell.innerHTML = `<span class="day-number">${day}</span>${
         symptomRows.length
           ? `<span class="calendar-symptom-rows">${symptomRows.map(row =>
-              `<span class="calendar-symptom-row" title="${escapeHtml(childById(row.childId)?.name || "")}">${
+              `<span class="calendar-symptom-row" title="${escapeHtml(childById(row.childId)?.name || "")}" style="background-color:${escapeHtml(childById(row.childId)?.bgColor || "#9aa0a6")}">${
                 row.icons.map(item =>
-                  `<span class="calendar-symptom-icon" title="${escapeHtml(item.symptom)}" aria-label="${escapeHtml(item.symptom)}" style="background-color:${escapeHtml(childById(row.childId)?.bgColor || "#9aa0a6")}">${item.icon}</span>`
+                  `<span class="calendar-symptom-icon" title="${escapeHtml(item.symptom)}" aria-label="${escapeHtml(item.symptom)}">${item.icon}</span>`
                 ).join("")
               }</span>`
             ).join("")}</span>`

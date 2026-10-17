@@ -164,3 +164,16 @@ footer { text-align: center; color: #888; font-size: .8rem; padding: 20px; }
   filter: none;
   border-radius: 4px;
 }
+
+/* 症状アイコンの行全体に、子どもごとの設定背景色を適用 */
+.calendar-symptom-row {
+  background-color: var(--child-color, #9aa0a6);
+  border-radius: 3px;
+  box-sizing: border-box;
+  min-height: 14px;
+  padding: 1px 2px;
+}
+.calendar-symptom-icon {
+  background: transparent !important;
+  border-radius: 0;
+}
